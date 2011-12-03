@@ -1,0 +1,83 @@
+{
+  "ldap":{
+    "host":"127.0.0.1",
+    "port":636,
+    "base":"dc=example,dc=com",
+    "encryption":"simple_tls",
+    "basedn":"ou=People,dc=ftp,dc=example,dc=com",
+    "auth":{
+      "method":"simple",
+      "username":"cn=proxyagent,ou=profile,dc=example,dc=com",
+      "password":"h3l@3rfl"
+    }
+  },
+  "http":{
+    "type":"unicorn",
+    "options":{
+      "listeners":"0.0.0.0:4000",
+      "worker_processes":10
+    }
+  },
+  "cache":{
+    "host":"localhost",
+    "port":11211,
+    "ttl":90
+  },
+  "env":{
+    "base":"/some/folder/ftprs",
+    "log":"/some/folder/ftprs/log",
+    "static":"/some/folder/ftprs/lib/ftprs/server/http/static",
+    "templates":"ftprs/server/http/templates",
+    "auth":"/some/folder/ftprs/htpasswd"
+  },
+  "templates":{
+    "user":{
+      "dn":"cn=<%= params[:username] %>,ou=People,dc=ftp,dc=example,dc=com",
+      "attributes":{
+        "uid":"<%= params[:username] %>",
+        "uidnumber":"<%= params[:uid] %>",
+        "gidnumber":"<%= params[:uid] %>",
+        "gecos":"FTP User,<%= params[:description] %>, , ,00000000,<%= params[:requester] %>",
+        "givenName":"FTP",
+        "sn":"User",
+        "homedirectory":"/data/ftp/home/<%= params[:username] %>",
+        "loginshell":"/etc/ftponly",
+        "mail":"",
+        "cn":"<%= params[:username] %>",
+        "userpassword":"<%= params[:passwd] %>",
+        "sambaSID":"S-1-0-0-<%= params[:sid] %>",
+        "objectclass":[
+          "top",
+          "posixAccount",
+          "shadowAccount",
+          "person",
+          "organizationalPerson",
+          "inetOrgPerson",
+          "sambaSamAccount"
+        ]
+      }
+    },
+    "group":{
+      "dn":"cn=<%= params[:username]%>,ou=group,dc=ftp,dc=example,dc=com",
+      "attributes":{
+        "cn":"<%= params[:username] %>",
+        "gidnumber":"<%= params[:uid] %>",
+        "objectclass":[
+            "top",
+            "posixGroup"
+        ]
+      }
+    },
+    "netgroup":{
+      "dn":"cn=<%= params[:username]%>,ou=netgroup,dc=ftp,dc=example,dc=com",
+      "attributes":{
+        "cn":"<%= params[:username] %>",
+        "nisNetgroupTriple":"(,<%= params[:username] %>,),",
+        "objectclass":[
+          "top",
+          "nisNetgroup"
+        ]
+      }
+    }
+  }
+}
