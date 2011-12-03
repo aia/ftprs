@@ -1,0 +1,67 @@
+<html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <title>FTP Request Service: List Users</title>
+  <link rel="stylesheet" type="text/css" href="/styles.css" />
+  <style type="text/css" title="currentStyle">
+    @import "/release-datatables/media/css/demo_page.css";
+    @import "/release-datatables/media/css/demo_table.css";
+  </style>
+  <script type="text/javascript" language="javascript" src="/release-datatables/media/js/jquery.js"></script>
+
+  <script type="text/javascript" language="javascript" src="/release-datatables/media/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+      $('#example').dataTable( {
+        "bPaginate": false,
+        "bProcessing": true,
+        "sAjaxSource": '/ftprs/users/list/json'
+      } );
+    } );
+  </script>
+  </script>
+</head>
+<body>
+  <div id="fw_container">
+    <div id="fw_header">
+      <ul>
+        <li>
+          <a class="active" href="/ftprs/users/list">List</a>
+        </li>
+        <li>
+          <a href="/ftprs/users/new">New</a>
+        </li>
+        <li>
+          <a href="/ftprs/users/edit">Edit</a>
+        </li>
+      </ul>
+    </div>
+  <div id="table">
+  <h2>List of FTP Users</h2>
+  <table border='0' cellpadding='0' cellspacing='0' class='display' id='example'>
+    <thead>
+    <tr>
+      <th width='15%'>CN</th>
+      <th width='10%'>UID</th>
+      <th width='50%'>Home</th>
+      <th width='15%'>Login</th>
+      <th width='10%'>Edit</th>
+    </tr>
+    <tbody>
+      <tr>
+        <td class='dataTables_empty' colspan='8'>Loading data from server</td>
+      </tr>
+    <tfoot>
+      <tr></tr>
+      <th>CN</th>
+      <th>UID</th>
+      <th>Home</th>
+      <th>Login</th>
+      <th>Edit</th>
+    </tfoot>
+    </tbody>
+  </thead>
+  </table>
+  </div>
+  </div>
+</body>

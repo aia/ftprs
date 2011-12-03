@@ -1,0 +1,53 @@
+<html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <title>New Entry</title>
+  <link rel="stylesheet" type="text/css" href="/styles.css" />
+</head>
+<body>
+  <div id="fw_container">
+    <div id="fw_header">
+      <ul>
+        <li>
+          <a href="/ftprs/users/list">List</a>
+        </li>
+        <li>
+          <a class="active" href="/ftprs/users/new">New</a>
+        </li>
+        <li>
+          <a href="/ftprs/users/edit">Edit</a>
+        </li>
+      </ul>
+    </div>
+  <div id="table">
+  <h2>New Entry</h2>
+  <form method=POST action="/ftprs/users/new" >
+  <table border='0' cellpadding='0' cellspacing='0' class='display' id='example'>
+    <thead>
+    <tr>
+      <th width='40%'>Entry Parameter Name</th>
+      <th width='60%'>Entry Parameter Value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Username:</td><td><input name=username size="50"></td>
+    </tr>
+    <tr>
+      <td>Password:</td><td><input name=password size="50"></td>
+    </tr>
+    <tr>
+      <td>Description:</td><td><input name=description size="50"></td>
+    </tr>
+    <tr>
+      <td>Requester:</td><td><input name=requester size="50"></td>
+    </tr>
+    <tr>
+      <td></td><td><input type=submit VALUE="Create New Account" ></td>
+    </tr>
+  </tbody>
+  </table>
+  </form>
+  </div>
+  </div>
+</body>

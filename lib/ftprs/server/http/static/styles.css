@@ -1,0 +1,42 @@
+#fw_container {
+	margin: 0 auto;
+	padding-top: 2em;
+	width: 980px;
+}
+#fw_header {
+	margin-bottom: 1.5em;
+	position: relative;
+	font: 100%/1.45em "Lucida Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+#fw_header ul {
+	padding-left: 10px;
+	padding-top: 10px;
+}
+#fw_header li {
+	float: left;
+	padding: 0 5px;
+}
+#fw_header li a {
+	padding: 0 10px;
+}
+
+#fw_header li a:hover {
+	border-bottom: 5px solid #829AC6;
+	text-decoration: none;
+}
+#fw_header li a.active {
+	border-bottom: 5px solid #4E6CA3;
+}
+
+#table {
+	margin-top: 70px;
+	padding-left: 25px;
+	position: relative;
+}
+a {
+	color: #4E6CA3;
+	text-decoration: none;
+}
+ol, ul {
+	list-style: none outside none;
+}
