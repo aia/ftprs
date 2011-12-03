@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'rubygems'
 require 'bundler'
 begin
@@ -7,6 +9,7 @@ rescue Bundler::BundlerError => e
   $stderr.puts "Run `bundle install` to install missing gems"
   exit e.status_code
 end
+#require 'rake/dsl_definition'
 require 'rake'
 
 require 'jeweler'
@@ -14,15 +17,12 @@ Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "ftprs"
   gem.homepage = "http://github.com/aia/ftprs"
-  gem.license = "MIT"
-  gem.summary = %Q{FTP LDAP account manager}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.license = "copyright"
+  gem.summary = %Q{FTPrs TDB}
+  gem.description = %Q{FTPrs FTW}
   gem.email = "artem@veremey.net"
-  gem.authors = ["Artem"]
-  # Include your dependencies below. Runtime dependencies are required when using your gem,
-  # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
-  #  gem.add_runtime_dependency 'jabber4r', '> 0.1'
-  #  gem.add_development_dependency 'rspec', '> 1.2.3'
+  gem.authors = ["Artem Veremey"]
+  # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
 
@@ -32,19 +32,27 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = FileList['spec/**/*_spec.rb']
 end
 
-RSpec::Core::RakeTask.new(:rcov) do |spec|
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
+desc "Code coverage detail"
+task :coverage do
+  ENV['COVERAGE'] = "true"
+  Rake::Task["spec"].execute
 end
+
+#require 'rcov/rcovtask'
+#desc "Code coverage brief"
+#Rcov::RcovTask.new("rcov:brief") do |task|
+#  task.test_files = FileList['spec/**/*_spec.rb']
+#  task.rcov_opts << '--exclude /gems/,/Library/,/usr/,spec,lib/tasks'
+#end
+
+#desc "Code coverage detail"
+#Rcov::RcovTask.new("rcov:detail") do |task|
+#  task.test_files = FileList['spec/**/*_spec.rb']
+#  task.rcov_opts << '--exclude /gems/,/Library/,/usr/,spec,lib/tasks'
+#  task.rcov_opts << '--text-coverage'
+#end
 
 task :default => :spec
 
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
-
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "ftprs #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
+require 'yard'
+YARD::Rake::YardocTask.new
