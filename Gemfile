@@ -9,6 +9,7 @@ gem "unicorn"
 gem "rainbows"
 gem "cache"
 gem "dalli"
+gem "daemons"
 
 group :development do
   gem "rspec", ">= 2.7.0"
