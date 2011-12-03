@@ -49,12 +49,14 @@ module FTPrs
           params.each_key do |key|
             @message = [@message, "#{key} - #{params[key]}<br />"].join("\n")
           end
+          pp ["params", params]
           uid = search_rows[:values]
           params[:uid] = uid
           sid = uid*2 + 1000
           params[:sid] = sid
           passwd = FTPrs::Server.ldap.crypt(params[:password])
           params[:passwd] = passwd
+          pp ["params", params]
           user = JSON.parse(
             FTPrs::Server.config[:templates][:user].result(binding), 
             :symbolize_names => true
@@ -79,8 +81,25 @@ module FTPrs
           
           requestor = { :name => request.env["REMOTE_USER"], :ip => request.env["REMOTE_ADDR"] }
           result = FTPrs::Server.ldap.add(requestor, user[:dn], user[:attributes])
+          if (result[:status] == 0)
+            @message = [@message, "<br /><br />Adding user <u>failed</u><br />#{result[:message]}<br />"].join("\n")
+            FTPrs::Server.cache.delete("next_uid")
+            return erb :ftpresult
+          end
+          
           result = FTPrs::Server.ldap.add(requestor, group[:dn], group[:attributes])
+          if (result[:status] == 0)
+            @message = [@message, "<br /><br />Adding group <u>failed</u><br />#{result[:message]}<br />"].join("\n")
+            FTPrs::Server.cache.delete("next_uid")
+            return erb :ftpresult
+          end
+          
           result = FTPrs::Server.ldap.add(requestor, netgroup[:dn], netgroup[:attributes])
+          if (result[:status] == 0)
+            @message = [@message, "<br /><br />Adding netgroup <u>failed</u><br />#{result[:message]}<br />"].join("\n")
+            FTPrs::Server.cache.delete("next_uid")
+            return erb :ftpresult
+          end
           
           if (!File.exists?("/data/ftp/home/#{params[:username]}"))
             puts "Creating"
@@ -141,10 +160,10 @@ module FTPrs
           
           requestor = { :name => request.env["REMOTE_USER"], :ip => request.env["REMOTE_ADDR"] }
           result = FTPrs::Server.ldap.modify(requestor, dn, operations)
-          if (result)
+          if (result[:status] == 1)
             @message = [@message, "<br /><br />Changes were made <u>successfully</u><br />"].join("\n")
           else
-            @message = [@message, "<br /><br />Changes were made <u>unsuccessfully</u><br />"].join("\n")
+            @message = [@message, "<br /><br />Changes <u>failed</u><br />#{result[:message]}<br />"].join("\n")
             FTPrs::Server.cache.delete("uid=#{params[:uidnumber]},#{FTPrs::Server.config[:ldap][:basedn]}")
           end
         end
@@ -213,7 +232,7 @@ module FTPrs
         end
         erb :ftpresult
       end
-
+      
       def list_ftp_users
         rows = FTPrs::Server.cache.get("#{FTPrs::Server.config[:ldap][:basedn]}")
         

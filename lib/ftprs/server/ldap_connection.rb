@@ -38,8 +38,14 @@ module FTPrs
           [:replace, :userpassword, [crypt(password)]]
         ]
         log("#{user[:name]} #{user[:ip]} operation replace password \"#{password}\" for #{dn}")
-        return true
+        ret = {
+          :status => 1,
+          :message => "Success",
+          :values => ""
+        }
         #return @ds.modify(:dn => dn, :operations => ops)
+        #ret = @ds.get_operation_result
+        return ret
       end
       
       def search(base, filter = nil, attributes = nil)
@@ -105,17 +111,28 @@ module FTPrs
       
       def add(requestor, dn, attributes)
         log("#{requestor[:name]} #{requestor[:ip]} added #{dn}")
-        return true
+        ret = {
+          :status => 1,
+          :message => "Success",
+          :values => ""
+        }
         #@ds.add(:dn => dn, :attributes => attributes)
+        #ret = @ds.get_operation_result
+        return ret
       end
       
       def modify(requestor, dn, ops)
         ops.each do |op|
           log("#{requestor[:name]} #{requestor[:ip]} operation #{op[0]} #{op[1]} \"#{op[2].join(', ')}\" for #{dn}")
         end
-        return true
-        #return @ds.modify(:dn => dn, :operations => ops)
-        #@ds.modify(dn =)
+        ret = {
+          :status => 1,
+          :message => "Success",
+          :values => ""
+        }
+        #@ds.modify(:dn => dn, :operations => ops)
+        #ret = @ds.get_operation_result
+        return ret
       end
     end
   end
