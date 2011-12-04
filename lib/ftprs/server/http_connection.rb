@@ -6,23 +6,43 @@ require 'erb'
 
 module FTPrs
   module Server
+    
+    #
+    # Sinatra application
+    #
     class HTTPConnection < Sinatra::Base
+      
+      # HTTP GET /
+      # @method / 
+      # @return [GET] Redirect to /ftprs/users/new
       get '/' do
         redirect '/ftprs/users/new'
       end
       
+      # HTTP GET /ftprs/users/list
+      # @method /ftprs/users/list
+      # @return [GET] Returns the frame for the list of LDAP/FTP users
       get '/ftprs/users/list' do
         erb :ftpusers
       end
       
+      # HTTP GET /ftprs/users/list/json
+      # @method /ftprs/users/list/json
+      # @return [GET] Returns the list of LDAP/FTP users as a JSON Object
       get '/ftprs/users/list/json' do
         list_ftp_users
       end
       
+      # HTTP GET /ftprs/users/new
+      # @method /ftprs/users/new
+      # @return [GET] Returns the form for a new LDAP/FTP users
       get '/ftprs/users/new' do
         erb :ftpnew
       end
       
+      # HTTP POST /ftprs/users/new
+      # @method /ftprs/users/new
+      # @return [POST] Returns the result of the add new user operation
       post '/ftprs/users/new' do
         rows = FTPrs::Server.cache.get("next_uid")
         pp ["cache_get", rows]
@@ -115,14 +135,23 @@ module FTPrs
         erb :ftpresult
       end
       
+      # HTTP GET /ftprs/users/edit
+      # @method /ftprs/users/edit
+      # @return [GET] Returns the LDAP/FTP user edit form
       get '/ftprs/users/edit' do
         erb :ftpedit
       end
       
+      # HTTP POST /ftprs/users/edit
+      # @method /ftprs/users/edit
+      # @return [POST] Redirects to /ftprs/users/edit/:postuid page
       post '/ftprs/users/edit' do
         redirect "/ftprs/users/edit/#{params[:postuid]}"
       end
       
+      # HTTP POST /ftprs/users/edit/:postuid
+      # @method /ftprs/users/edit/:postuid
+      # @return [POST] Returns the results of edit user parameters operation
       post '/ftprs/users/edit/:postuid' do
         pp ["params", params]
         filter = Net::LDAP::Filter.eq("uidNumber", params[:postuid])
@@ -171,6 +200,9 @@ module FTPrs
         erb :ftpresult
       end
       
+      # HTTP GET /ftprs/users/edit/:postuid
+      # @method /ftprs/users/edit/:postuid
+      # @return [GET] Returns the LDAP/FTP user edit form filled with the specific user parameters
       get '/ftprs/users/edit/:postuid' do
         rows = FTPrs::Server.cache.get("uid=#{params[:postuid]},#{FTPrs::Server.config[:ldap][:basedn]}")
         
@@ -212,10 +244,16 @@ module FTPrs
         end
       end
       
+      # HTTP GET /ftprs/users/passwd/:cn
+      # @method /ftprs/users/passwd/:cn
+      # @return [GET] Returns the password change form
       get '/ftprs/users/passwd/:cn' do
         erb :ftppasswd
       end
       
+      # HTTP POST /ftprs/users/passwd/:cn
+      # @method /ftprs/users/passwd/:cn
+      # @return [POST] Returns the results of the password change operation
       post '/ftprs/users/passwd/:cn' do
         @message = ""
         if (params[:password1] == params[:password2])
@@ -233,6 +271,10 @@ module FTPrs
         erb :ftpresult
       end
       
+      # List LDAP/FTP users
+      # 
+      # @return [Hash] Returns the list of LDAP/FTP users
+      # @private
       def list_ftp_users
         rows = FTPrs::Server.cache.get("#{FTPrs::Server.config[:ldap][:basedn]}")
         

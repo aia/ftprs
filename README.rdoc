@@ -30,6 +30,7 @@ To start FTPrs
     "base":"dc=example,dc=com",
     # Encrypt connection to LDAP
     "encryption":"simple_tls",
+    # LDAP users Base DN
     "basedn":"ou=People,dc=ftp,dc=example,dc=com",
     # LDAP authentication
     "auth":{
