@@ -19,60 +19,60 @@
         </li>
       </ul>
     </div>
-  <div id="table">
-  <h2>Editing Entry #<%= params[:postuid] %></h2>
-  To change password for this user click <a href="/ftprs/users/passwd/<%= @user[:cn] %>">here</a><br /><br />
-  <form method=POST action="/ftprs/users/edit/<%= params[:postuid] %>" >
-  <table border='0' cellpadding='0' cellspacing='0' class='display' id='example'>
-    <thead>
-    <tr>
-      <th width='40%'>Entry Parameter Name</th>
-      <th width='60%'>Entry Parameter Value</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>SN:</td><td><input name=sn size="50" value="<%= @user[:sn] %>"></td>
-    </tr>
-    <tr>
-      <td>Givenname:</td><td><input name=givenname size="50" value="<%= @user[:givenname] %>"></td>
-    </tr>
-    <tr>
-      <td>Gecos:</td><td><input name=gecos size="50" value="<%= @user[:gecos] %>"></td>
-    </tr>
-    <tr>
-      <td>CN:</td><td><input name=cn size="50" value="<%= @user[:cn] %>"></td>
-    </tr>
-    <tr>
-      <td>Mail:</td><td><input name=mail size="50" value="<%= @user[:mail] %>"></td>
-    </tr>
-    <tr>
-      <td>Sambasid:</td><td><input name=sambasid size="50" value="<%= @user[:sambasid] %>"></td>
-    </tr>
-    <tr>
-      <td>Home Directory:</td><td><input name=homedirectory size="50" value="<%= @user[:homedirectory] %>"></td>
-    </tr>
-    <tr>
-      <td>UID:</td><td><input name=uid size="50" value="<%= @user[:uid] %>"></td>
-    </tr>
-    <tr>
-      <td>Loginshell:</td><td><input name=loginshell size="50" value="<%= @user[:loginshell] %>"></td>
-    </tr>
-    <tr>
-      <td>UID Number:</td><td><input name=uidnumber size="50" value="<%= @user[:uidnumber] %>"></td>
-    </tr>
-    <tr>
-      <td>DN:</td><td><input name=dn size="50" value="<%= @user[:dn] %>"></td>
-    </tr>
-    <tr>
-      <td>GID Number:</td><td><input name=gidnumber size="50" value="<%= @user[:gidnumber] %>"></td>
-    </tr>
-    <tr>
-      <td></td><td><input type=submit VALUE="Submit Changes" ></td>
-    </tr>
-  </tbody>
-  </table>
-  </form>
-  </div>
+    <div id="table">
+      <h2>Editing Entry #<%= params[:postuid] %></h2>
+      To change password for this user click <a href="/ftprs/users/passwd/<%= @user[:cn] %>">here</a><br /><br />
+      <form method=POST action="/ftprs/users/edit/<%= params[:postuid] %>" >
+        <table border='0' cellpadding='0' cellspacing='0' class='display' id='example'>
+          <thead>
+            <tr>
+              <th width='40%'>Entry Parameter Name</th>
+              <th width='60%'>Entry Parameter Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>SN:</td><td><input name=sn size="50" value="<%= @user[:sn] %>"></td>
+            </tr>
+            <tr>
+              <td>Givenname:</td><td><input name=givenname size="50" value="<%= @user[:givenname] %>"></td>
+            </tr>
+            <tr>
+              <td>Gecos:</td><td><input name=gecos size="50" value="<%= @user[:gecos] %>"></td>
+            </tr>
+            <tr>
+              <td>CN:</td><td><input name=cn size="50" value="<%= @user[:cn] %>"></td>
+            </tr>
+            <tr>
+              <td>Mail:</td><td><input name=mail size="50" value="<%= @user[:mail] %>"></td>
+            </tr>
+            <tr>
+              <td>Sambasid:</td><td><input name=sambasid size="50" value="<%= @user[:sambasid] %>"></td>
+            </tr>
+            <tr>
+              <td>Home Directory:</td><td><input name=homedirectory size="50" value="<%= @user[:homedirectory] %>"></td>
+            </tr>
+            <tr>
+              <td>UID:</td><td><input name=uid size="50" value="<%= @user[:uid] %>"></td>
+            </tr>
+            <tr>
+              <td>Loginshell:</td><td><input name=loginshell size="50" value="<%= @user[:loginshell] %>"></td>
+            </tr>
+            <tr>
+              <td>UID Number:</td><td><input name=uidnumber size="50" value="<%= @user[:uidnumber] %>"></td>
+            </tr>
+            <tr>
+              <td>DN:</td><td><input name=dn size="50" value="<%= @user[:dn] %>"></td>
+            </tr>
+            <tr>
+              <td>GID Number:</td><td><input name=gidnumber size="50" value="<%= @user[:gidnumber] %>"></td>
+            </tr>
+            <tr>
+              <td></td><td><input type=submit VALUE="Submit Changes" ></td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
   </div>
 </body>

@@ -19,23 +19,23 @@
         </li>
       </ul>
     </div>
-  <div id="table">
-  <h2>Changing password for user <%= params[:cn] %></h2>
-  <form method=POST action="/ftprs/users/passwd/<%= params[:cn] %>" >
-  <table border='0' cellpadding='0' cellspacing='0' class='display' id='example'>
-    <tbody>
-    <tr>
-      <td width="120">New Password:</td><td><input name=password1 size="50"></td>
-    </tr>
-    <tr>
-      <td width="120">Retype Password:</td><td><input name=password2 size="50"></td>
-    </tr>
-    <tr>
-      <td><input type=submit VALUE="Set Password" ></td>
-    </tr>
-  </tbody>
-  </table>
-  </form>
-  </div>
+    <div id="table">
+      <h2>Changing password for user <%= params[:cn] %></h2>
+      <form method=POST action="/ftprs/users/passwd/<%= params[:cn] %>" >
+        <table border='0' cellpadding='0' cellspacing='0' class='display' id='example'>
+          <tbody>
+            <tr>
+              <td width="120">New Password:</td><td><input name=password1 size="50"></td>
+            </tr>
+            <tr>
+              <td width="120">Retype Password:</td><td><input name=password2 size="50"></td>
+            </tr>
+            <tr>
+              <td><input type=submit VALUE="Set Password" ></td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
   </div>
 </body>
