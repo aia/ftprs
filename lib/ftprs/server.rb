@@ -136,11 +136,12 @@ module FTPrs
             username == 'admin' && password == 'admin'
           end
         end
-        #use Rack::Session::Pool, :key => 'ftprs.session', :expire_after => 60000
+        use Rack::Lint
+        # Create distinct cookies
+        use Rack::Session::Pool, :key => 'ftprs.session', :expire_after => 60000
         # Configure logger
         use Rack::CommonLogger, @logger
         use Rack::ShowExceptions
-        use Rack::Lint
         # Ultimately dispatch requests to a Sinatra application
         run Rack::Cascade.new([FTPrs::Server::HTTPConnection])
       }.to_app
