@@ -4,12 +4,7 @@ FTPrs is a user management interface for LDAP.
 
 In a sample setup, FTP server ({ProFTPD}[http://www.proftpd.org/] for example) is configured to authenticate users against an LDAP directory ({OpenLDAP}[http://www.openldap.org/] is an example). Configured for ProFTPD file system controls user authorization agains the same LDAP directory. FTPrs was developed to help manage hundreds of FTP/LDAP accounts.
 
-FTPrs is based on
-* Ruby
-* Rack
-* Sinatra
-* Net/LDAP
-* Memcached
+FTPrs is based on <b>Ruby</b>[http://www.ruby-lang.org/en/], <b>Rack</b>[https://github.com/rack/rack], <b>Sinatra</b>[http://www.sinatrarb.com/], <b>Net/LDAP</b>[https://github.com/innovationfactory/ruby-net-ldap], <b>Memcached</b>[http://memcached.org/].
 
 To start FTPrs
 * Create FTPrs configuration - config.json
