@@ -8,7 +8,7 @@
     "auth":{
       "method":"simple",
       "username":"cn=proxyagent,ou=profile,dc=example,dc=com",
-      "password":"h3l@3rfl"
+      "password":"password here"
     }
   },
   "http":{

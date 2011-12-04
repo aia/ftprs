@@ -1,8 +1,125 @@
-= ftprs
+= FTPrs
 
-Description goes here.
+FTPrs is a user management interface for LDAP. 
 
-== Contributing to ftprs
+In a sample setup, FTP server ({ProFTPD}[http://www.proftpd.org/] for example) is configured to authenticate users against an LDAP directory ({OpenLDAP}[http://www.openldap.org/] is an example). Configured for ProFTPD file system controls user authorization agains the same LDAP directory. FTPrs was developed to help manage hundreds of FTP/LDAP accounts.
+
+FTPrs is based on
+* Ruby
+* Rack
+* Sinatra
+* Net/LDAP
+* Memcached
+
+To start FTPrs
+* Create FTPrs configuration - config.json
+* Configure and run a memcached server
+* Run bin/ftprs <config.json>
+
+
+== Configuring FTPrs
+
+{
+  # LDAP connection parameters
+  "ldap":{
+    # LDAP host
+    "host":"127.0.0.1",
+    # LDAP port
+    "port":636,
+    # LDAP base
+    "base":"dc=example,dc=com",
+    # Encrypt connection to LDAP
+    "encryption":"simple_tls",
+    "basedn":"ou=People,dc=ftp,dc=example,dc=com",
+    # LDAP authentication
+    "auth":{
+      "method":"simple",
+      "username":"cn=proxyagent,ou=profile,dc=example,dc=com",
+      "password":"password here"
+    }
+  },
+  # HTTP server parameters
+  "http":{
+    # HTTP server type - unicorn, rainbows, thin, or webrick
+    "type":"unicorn",
+    "options":{
+      "listeners":"0.0.0.0:4000",
+      "worker_processes":10
+    }
+  },
+  # Memcache connection parameters
+  "cache":{
+    "host":"localhost",
+    "port":11211,
+    "ttl":90
+  },
+  # Folders configuration
+  "env":{
+    "base":"/some/folder/ftprs",
+    "log":"/some/folder/ftprs/log",
+    "static":"/some/folder/ftprs/lib/ftprs/server/http/static",
+    "templates":"ftprs/server/http/templates",
+    "auth":"/some/folder/ftprs/htpasswd"
+  },
+  # LDAP object templates
+  "templates":{
+    # LDAP user object
+    "user":{
+      "dn":"cn=<%= params[:username] %>,ou=People,dc=ftp,dc=example,dc=com",
+      "attributes":{
+        "uid":"<%= params[:username] %>",
+        "uidnumber":"<%= params[:uid] %>",
+        "gidnumber":"<%= params[:uid] %>",
+        "gecos":"FTP User,<%= params[:description] %>, , ,00000000,<%= params[:requester] %>",
+        "givenName":"FTP",
+        "sn":"User",
+        "homedirectory":"/data/ftp/home/<%= params[:username] %>",
+        "loginshell":"/etc/ftponly",
+        "mail":"",
+        "cn":"<%= params[:username] %>",
+        "userpassword":"<%= params[:passwd] %>",
+        "sambaSID":"S-1-0-0-<%= params[:sid] %>",
+        "objectclass":[
+          "top",
+          "posixAccount",
+          "shadowAccount",
+          "person",
+          "organizationalPerson",
+          "inetOrgPerson",
+          "sambaSamAccount"
+        ]
+      }
+    },
+    # LDAP group object
+    "group":{
+      "dn":"cn=<%= params[:username]%>,ou=group,dc=ftp,dc=example,dc=com",
+      "attributes":{
+        "cn":"<%= params[:username] %>",
+        "gidnumber":"<%= params[:uid] %>",
+        "objectclass":[
+            "top",
+            "posixGroup"
+        ]
+      }
+    },
+    # LDAP netgroup object
+    "netgroup":{
+      "dn":"cn=<%= params[:username]%>,ou=netgroup,dc=ftp,dc=example,dc=com",
+      "attributes":{
+        "cn":"<%= params[:username] %>",
+        "nisNetgroupTriple":"(,<%= params[:username] %>,),",
+        "objectclass":[
+          "top",
+          "nisNetgroup"
+        ]
+      }
+    }
+  }
+}
+
+
+
+== Contributing to FTPrs
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
