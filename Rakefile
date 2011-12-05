@@ -55,6 +55,10 @@ end
 task :default => :spec
 
 require 'yard'
-YARD::Rake::YardocTask.new do |task|
+YARD::Rake::YardocTask.new("doc") do |task|
   task.options += ["--no-private"]
+end
+
+YARD::Rake::YardocTask.new("doc:all") do |task|
+  task.options += ["--private"]
 end
