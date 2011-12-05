@@ -17,15 +17,30 @@ describe "FTPrs::Server" do
       },
       :env => {
         :base => '/some/path/ftprs',
-        :log => 'ftprs/log',
-        :static  => 'lib/ftprs/server/http/static',
-        :templates => 'lib/ftprs/server/http/templates'
+        :log => '/some/path/ftprs/log',
+        :static  => '/some/path/ftprs/lib/ftprs/server/http/static',
+        :templates => '/some/path/ftprs/lib/ftprs/server/http/templates'
+      },
+      :cache => {
+        :host => "localhost",
+        :port => 11211,
+        :ttl => 90
+      },
+      :http => {
+        :type => "thin",
+        :options => {
+          :host => "0.0.0.0",
+          :port => 4000
+        }
       }
     }
     FTPrs::Server::LDAPConnection.stub(:new).and_return(mock(FTPrs::Server::LDAPConnection))
+    Dalli::Client.stub(:new).and_return(mock(Dalli::Client))
+    Cache.stub(:wrap).and_return(mock(Cache))
   end
   
   it "should load configuration" do
+    FTPrs::Server.stub(:setup_logger).and_return(true)
     FTPrs::Server.load(@test_config)
     FTPrs::Server.config.should eql(@test_config)
     FTPrs::Server::HTTPConnection.views.should eql(@test_config[:env][:templates])
@@ -43,8 +58,14 @@ describe "FTPrs::Server" do
   
   it "should setup logger for development" do
     ENV['RACK_ENV'] = "development"
-    custom_output = StringIO.new
+    custom_output = mock(StringIO)
+    custom_output.stub(:write).and_return(true)
+    custom_output.should_receive(:sync=)
+    custom_error = mock(StringIO)
+    custom_error.stub(:write).and_return(true)
+    custom_error.should_receive(:reopen)
     $stdout = custom_output
+    $stderr = custom_error
     FTPrs::Server.setup_logger
     FTPrs::Server.logger.should eql(custom_output)
     
