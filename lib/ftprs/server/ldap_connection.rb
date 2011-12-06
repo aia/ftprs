@@ -10,33 +10,22 @@ module FTPrs
     class LDAPConnection
       
       # @return [Hash] LDAP configuration reference
-      # @private
       attr_accessor :config
       
       # Initialize LDAP connection
       #
       # @param [Hash] config LDAP configuration parameters
-      #
       def initialize(config)
-        # Setup configuration reference
         @config = config
-        # Convert authentication method to symbol
         @config[:ldap][:auth][:method] = @config[:ldap][:auth][:method].to_sym
-        # If LDAP connection is set to be encrypted
         unless @config[:ldap][:encryption].nil?
-           # Convert encryption method to symbol
            @config[:ldap][:encryption] = @config[:ldap][:encryption].to_sym
         end
-        # Setup LDAP connection handler
         @ds = Net::LDAP.new(@config[:ldap])
-        # Configure logging for production environment
         if (ENV['RACK_ENV'] == "production")
-          # Log to specified file
           @lh = File.new([@config[:env][:log], "/ldap.log"].join, "a+")
           @lh.sync = true
-        # Configure logging for development environment
         else
-          # Log to standard out
           @lh = $stdout
         end
       end
@@ -44,8 +33,6 @@ module FTPrs
       # Log an LDAP message
       #
       # @param [String] msg Message to log
-      #
-      # @private
       def log(msg)
         @lh.puts msg
       end
@@ -74,7 +61,7 @@ module FTPrs
         ops = [
           [:replace, :userpassword, [crypt(password)]]
         ]
-        log("#{requestor[:name]} #{user[:ip]} operation replace password \"#{password}\" for #{dn}")
+        log("#{requestor[:name]} #{requestor[:ip]} operation replace password \"#{password}\" for #{dn}")
         ret = {
           :status => 1,
           :message => "Success",
@@ -97,7 +84,6 @@ module FTPrs
         
         timeout_status = nil
         search_status = nil
-        
         begin
           timeout_status = Timeout::timeout(60) do
             @ds.search(:base => base, :filter => filter, :attributes => attributes) do |entry|
