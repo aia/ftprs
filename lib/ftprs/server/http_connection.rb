@@ -12,6 +12,13 @@ module FTPrs
     #
     class HTTPConnection < Sinatra::Base
       
+      before do
+        @header_template = {
+          :pages => ["list", "new", "edit"],
+          :active => "new"
+        }
+      end
+      
       # HTTP GET /
       # @method / 
       # @return [GET] Redirect to /ftprs/users/new
@@ -37,6 +44,7 @@ module FTPrs
       # @method /ftprs/users/new
       # @return [GET] Returns the form for a new LDAP/FTP users
       get '/ftprs/users/new' do
+        @header_template[:active] = "new"
         erb :ftpnew
       end
       
@@ -101,6 +109,7 @@ module FTPrs
       # @method /ftprs/users/edit
       # @return [GET] Returns the LDAP/FTP user edit form
       get '/ftprs/users/edit' do
+        @header_template[:active] = "edit"
         erb :ftpedit
       end
       
@@ -172,6 +181,7 @@ module FTPrs
         if (!@user.nil?)
           pp ["status", "cache hit"]
           pp ["user", @user]
+          @header_template[:active] = "edit"
           return erb :ftpedituid
         end
         
@@ -200,6 +210,7 @@ module FTPrs
           :expires_in => FTPrs::Server.config[:cache][:ttl].to_i
         )
         
+        @header_template[:active] = "edit"
         erb :ftpedituid
       end
       
@@ -294,6 +305,29 @@ module FTPrs
         end
         
         return next_uid
+      end
+      
+      helpers do
+        def partial(template, locals = nil)
+          if template.is_a?(String) || template.is_a?(Symbol)
+            template = ('_' + template.to_s).to_sym
+          else
+            locals = template
+            template = template.is_a?(Array) ? 
+              ('_' + template.first.class.to_s.downcase).to_sym : 
+              ('_' + template.class.to_s.downcase).to_sym
+          end
+          if locals.is_a?(Hash)
+            erb(template,{ :layout => false},locals)      
+          elsif locals
+            locals = [locals] unless locals.respond_to?(:inject)
+            locals.inject([]) do |output,element|
+              output << erb(template,{:layout=>false}, {template.to_s.delete("_").to_sym => element})
+            end.join("\n")
+          else 
+            erb(template, {:layout => false})
+          end
+        end
       end
     end
   end
