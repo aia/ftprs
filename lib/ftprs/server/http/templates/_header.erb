@@ -1,0 +1,7 @@
+<div id="fw_header">
+  <ul><% @header_template[:pages].each do |page| %>
+    <li>
+      <a <% if @header_template[:active] == page %>class="active"<% end %> href="/ftprs/users/<%= page %>"><%= page.capitalize %></a>
+    </li><% end %>
+  </ul>
+</div>
