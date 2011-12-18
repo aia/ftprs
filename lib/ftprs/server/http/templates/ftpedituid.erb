@@ -6,19 +6,7 @@
 </head>
 <body>
   <div id="fw_container">
-    <div id="fw_header">
-      <ul>
-        <li>
-          <a href="/ftprs/users/list">List</a>
-        </li>
-        <li>
-          <a href="/ftprs/users/new">New</a>
-        </li>
-        <li>
-          <a class="active" href="/ftprs/users/edit">Edit</a>
-        </li>
-      </ul>
-    </div>
+    <%= partial :header %>
     <div id="table">
       <h2>Editing Entry #<%= params[:postuid] %></h2>
       To change password for this user click <a href="/ftprs/users/passwd/<%= @user[:cn] %>">here</a><br /><br />
@@ -31,42 +19,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>SN:</td><td><input name=sn size="50" value="<%= @user[:sn] %>"></td>
-            </tr>
-            <tr>
-              <td>Givenname:</td><td><input name=givenname size="50" value="<%= @user[:givenname] %>"></td>
-            </tr>
-            <tr>
-              <td>Gecos:</td><td><input name=gecos size="50" value="<%= @user[:gecos] %>"></td>
-            </tr>
-            <tr>
-              <td>CN:</td><td><input name=cn size="50" value="<%= @user[:cn] %>"></td>
-            </tr>
-            <tr>
-              <td>Mail:</td><td><input name=mail size="50" value="<%= @user[:mail] %>"></td>
-            </tr>
-            <tr>
-              <td>Sambasid:</td><td><input name=sambasid size="50" value="<%= @user[:sambasid] %>"></td>
-            </tr>
-            <tr>
-              <td>Home Directory:</td><td><input name=homedirectory size="50" value="<%= @user[:homedirectory] %>"></td>
-            </tr>
-            <tr>
-              <td>UID:</td><td><input name=uid size="50" value="<%= @user[:uid] %>"></td>
-            </tr>
-            <tr>
-              <td>Loginshell:</td><td><input name=loginshell size="50" value="<%= @user[:loginshell] %>"></td>
-            </tr>
-            <tr>
-              <td>UID Number:</td><td><input name=uidnumber size="50" value="<%= @user[:uidnumber] %>"></td>
-            </tr>
-            <tr>
-              <td>DN:</td><td><input name=dn size="50" value="<%= @user[:dn] %>"></td>
-            </tr>
-            <tr>
-              <td>GID Number:</td><td><input name=gidnumber size="50" value="<%= @user[:gidnumber] %>"></td>
-            </tr>
+<%= partial :trvalue,%w{sn givenname gecos cn mail sambasid homedirectory uid loginshell uidnumber dn gidnumber} %>
             <tr>
               <td></td><td><input type=submit VALUE="Submit Changes" ></td>
             </tr>

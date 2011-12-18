@@ -6,19 +6,7 @@
 </head>
 <body>
   <div id="fw_container">
-    <div id="fw_header">
-      <ul>
-        <li>
-          <a href="/ftprs/users/list">List</a>
-        </li>
-        <li>
-          <a href="/ftprs/users/new">New</a>
-        </li>
-        <li>
-          <a class="active" href="/ftprs/users/edit">Edit</a>
-        </li>
-      </ul>
-    </div>
+    <%= partial :header %>
     <div id="table">
       <h2>Changing password for user <%= params[:cn] %></h2>
       <form method=POST action="/ftprs/users/passwd/<%= params[:cn] %>" >

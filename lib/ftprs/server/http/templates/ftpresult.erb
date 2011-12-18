@@ -6,21 +6,14 @@
 </head>
 <body>
   <div id="fw_container">
-    <div id="fw_header">
-      <ul>
-        <li>
-          <a href="/ftprs/users/list">List</a>
-        </li>
-        <li>
-          <a href="/ftprs/users/new">New</a>
-        </li>
-        <li>
-          <a class="active" href="/ftprs/users/edit">Edit</a>
-        </li>
-      </ul>
-    </div>
+    <%= partial :header %>
     <div id="table">
-      <%= @message %>
+      <% if defined? @result_template[:heading] %>
+        <h2><%= @result_template[:heading] %></h2><br /><br />
+      <% end %>
+      <% if defined? @result_template[:lines] %>
+        <% @result_template[:lines].each do |line| %><%= line %><br /><% end %>
+      <% end %>
     </div>
   </div>
 </body>
